@@ -94,6 +94,7 @@ int errsock=-1;
 char errbuf[1024];
 int outpipe=-1;
 int channel=-1;
+int port = -1;
 
 
 int operate(int sock,int port,int run) {
@@ -107,9 +108,6 @@ int operate(int sock,int port,int run) {
 
   unsigned char *bufadr=NULL;
   int bufsze;
-  if(run ==0){
-  	  outpipe=forkinet(port);
-  }
 /* JDS required to avoid rtserver race condition that deadlocks controlprograms */
   sleep(1);
 
@@ -391,6 +389,9 @@ int16 return_pulse(int index){
 }
 
 int get_outpipe(){
+	if(port != -1){
+		outpipe=forkinet(port);
+	}
 	return outpipe;	
 }
 

@@ -39,10 +39,7 @@ def process_data():
 		p_data['channel'] = prm.channel
 		p_data['bmnum'] = prm.bmnum
 		
-		if pre_bmnum == prm.bmnum:
-			sys.exit()
-		#previous bmnum
-		pre_bmnum = prm.bmnum
+
 		
 		p_data['bmazm'] = prm.bmazm
 		p_data['scan'] = prm.scan
@@ -78,25 +75,24 @@ def process_data():
 			size =prm.mplgexs
 		else:
 			size = prm.mplgs
-		ltag = []
-		ltag0 =[]
-		ltag1=[]
+		ltab = []
+		ltab0 =[]
+		ltab1=[]
 		i = 0
 		while(i<=size):
-			ltag0.append(rtserver.return_lag(0,i))
-			ltag1.append(rtserver.return_lag(1,i))
+			ltab0.append(rtserver.return_lag(0,i))
+			ltab1.append(rtserver.return_lag(1,i))
 			i=i+1
-		ltag.append(ltag0)
-		ltag.append(ltag1)
-		p_data['ltag'] = ltag
+		ltab.append(ltab0)
+		ltab.append(ltab1)
+		p_data['ltab'] = ltab
 		p_data['combf'] = prm.combf
 		
 		#Load the prm dictionary into a json then load it into the
 		#stringIO functionality
 		pdata = json.dumps(p_data)
 		json.dump([pdata],pIO)
-		outpipe=rtserver.get_outpipe()
-		msg.ConnexWriteIP(outpipe,pIO.getvalue(),pIO.tell())
+
 	
 		#Load in Fit data from rtserver's getFitData method
 		fIO = StringIO()
@@ -217,7 +213,8 @@ def process_data():
 			f_data['elv'] = {'elv':normal,'elv_low':low,'elv_high':high}
 		else:
 			f_data['rng'] = {'pwr0':p_0}
-	
+		outpipe=rtserver.get_outpipe()
+		msg.ConnexWriteIP(outpipe,pIO.getvalue(),pIO.tell())
 		fdata = json.dumps(f_data)
 		json.dump([fdata],fIO)
 		#writes data to the rtserver outpipe location

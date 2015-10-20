@@ -83,9 +83,8 @@ int execute(char *path,char *prog) {
   int s=0; 
   char *name;
   char *argv[256];
-
+  
   /* build the argument vector */
-
   sprintf(command,"%s/%s",path,prog);
   name=strtok(command," ");
   argv[0]=basename(name);

@@ -4,6 +4,10 @@
 #radar &
 
 # critical tasks
+export PYTHONPATH=/usr/local/src/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/codebase/superdarn/src.bin/os/rtmichelle.0.1/:/usr/local/src/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/codebase/base/src.lib/tcpip/cnx.1.17/src/:PYTHONPATH
+
+
+
 
 errlog -name mcm.a -lp 41000 &
 errlog -name mcm.b -lp 42000 &
@@ -24,11 +28,13 @@ fitacfwrite -r mcm.b -lp 42103 -ep 42000 &
 sleep 2
 echo "Ready for Control Programs"
 rtserver -rp 41104 -ep 41000 -tp 1024 &
-server.py -rp 42104 -ep 42000 -tp 1025 &
+schedule -l /data/ros/scdlogs/runBasic.b.scdlog -f /data/ros/scd/rnb.b.scd &
 
 sleep 2 
+
 schedule -l /data/ros/scdlogs/mcm.a.scdlog -f /data/ros/scd/mcm.a.scd -f /data/ros/scd/mcm.a-rbsp.scd & 
 schedule -l /data/ros/scdlogs/mcm.b.scdlog -f /data/ros/scd/mcm.b.scd &
+
 
 
 touch $HOME/radops_active.txt
