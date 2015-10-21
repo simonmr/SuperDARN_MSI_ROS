@@ -1,18 +1,23 @@
 //My code file
 #include <stdio.h>
-#include </usr/include/python2.7/Python.h>
+#include <Python.h>
 
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     FILE* file;
+    int i = 0;
+    int len = argc -1;
+    char *arg[len];
+    for (i = 1; i < argc; i++)
+        arg[i-1] = argv[i];
+ 
 
-
-    Py_SetProgramName(argv[0]);
+    Py_SetProgramName(arg[0]);
     Py_Initialize();
-    PySys_SetArgv(argc, argv);
-    file = fopen("/home/mrsimon/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/bin/server.py","r");
-    PyRun_SimpleFile(file, "/home/mrsimon/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/bin/server.py");
+    PySys_SetArgv(len, arg);
+    file = fopen(arg[0],"r");
+    PyRun_SimpleFile(file, arg[0]);
     Py_Finalize();
     //system("bash restart_server.sh");
-    return;
+    return 0;
 }
