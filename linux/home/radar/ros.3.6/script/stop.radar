@@ -7,7 +7,6 @@ killall -s 2 schedule
 sleep 1
 
 killall schedule 
-killall runBasic
 killall rtserver
 killall fitacfwrite
 killall rawacfwrite

@@ -3,8 +3,6 @@
 # dummy radar server
 #radar &
 
-# critical tasks
-export PYTHONPATH=/usr/local/src/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/codebase/superdarn/src.bin/os/rtmichelle.0.1/:/usr/local/src/SuperDARN_MSI_ROS/linux/home/radar/ros.3.6/codebase/base/src.lib/tcpip/cnx.1.17/src/:PYTHONPATH
 
 
 
@@ -27,13 +25,11 @@ rawacfwrite -r mcm.b -lp 42102 -ep 42000 &
 fitacfwrite -r mcm.b -lp 42103 -ep 42000 &
 sleep 2
 echo "Ready for Control Programs"
-rtserver -rp 41104 -ep 41000 -tp 1024 &
-schedule -l /data/ros/scdlogs/rnb.b.scdlog -f /data/ros/scd/runBasic.b.scd &
 
 sleep 2 
 
 schedule -l /data/ros/scdlogs/mcm.a.scdlog -f /data/ros/scd/mcm.a.scd -f /data/ros/scd/mcm.a-rbsp.scd & 
-schedule -l /data/ros/scdlogs/mcm.b.scdlog -f /data/ros/scd/mcm.b.scd &
+schedule -l ~/mcm.b.scdlog -f ~/mcm.b.scd &
 
 
 

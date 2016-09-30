@@ -21,6 +21,8 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/wait.h>
+#include <errno.h>
+#include "log_info.h"
 #include "schedule.h"
 
 #define TIME_OUT 10
@@ -35,6 +37,12 @@ void terminate(pid_t prog_id) {
   
   
   sigset_t set;
+  FILE *fp;
+  char path[8];
+  char txt[1024];
+  int pids[5];
+  int j = 0;
+  pids[j] = prog_id;
   struct sigaction act;
   struct sigaction oldact; 
 
@@ -54,18 +62,20 @@ void terminate(pid_t prog_id) {
   timer.it_interval.tv_usec=0;
   timer.it_value.tv_sec=TIME_OUT;
   timer.it_value.tv_usec=0;
-
+  
+  
   setitimer(ITIMER_REAL,&timer,NULL);
 
   kill(prog_id,SIGUSR1);
   waitpid(prog_id,NULL,0);
-  
+   
   if (resetflg==1) {  
     fprintf(stderr,"killing task.\n");
     kill(prog_id,SIGKILL);
     waitpid(prog_id,NULL,0);
     resetflg=0;
   }
+
 
   timer.it_value.tv_sec=0;
   timer.it_value.tv_usec=0;
@@ -74,6 +84,7 @@ void terminate(pid_t prog_id) {
   sigaction(SIGALRM,&oldact,NULL);
 
 }
+
    
 
 
